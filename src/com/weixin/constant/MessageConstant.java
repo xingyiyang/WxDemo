@@ -17,8 +17,8 @@ public interface MessageConstant {
     public static final String MESSAGE_EVENT = "event";             //事件
     public static final String MESSAGE_SUBSCRIBE = "subscribe";     // 关注
     public static final String MESSAGE_UNSUBSCRIBE = "unsubscribe"; // 取消关注
-    public static final String MESSAGE_CLICK = "CLICK";             //click类型菜单,大写
-    public static final String MESSAGE_VIEW = "VIEW";               //view类型菜单，大写
+    public static final String MESSAGE_CLICK = "click";             //click类型菜单,大写
+    public static final String MESSAGE_VIEW = "view";               //view类型菜单，大写
     public static final String MESSAGE_SCANCODE= "scancode_push";   //扫码
     public static final String MESSAGE_LOCSELECT= "location_select";//地理位置
 }

@@ -1,74 +1,64 @@
 package com.weixin.util;
 
 import com.weixin.constant.MessageConstant;
+import com.weixin.constant.UrlConstant;
 import com.weixin.menu.Button;
 import com.weixin.menu.ClickButton;
+import com.weixin.menu.Menu;
 import com.weixin.menu.ViewButton;
+import com.weixin.template.MenuTemplate;
+import net.sf.json.JSONObject;
 
 /**
  * Created by xing on 2018/7/18.
  */
 public class MenuUtil {
-    /**
-     * clickbutton类型菜单,放在左边
-     */
-    public static ClickButton buttonMenuLeft(){
 
-        ClickButton clickButton = new ClickButton();
-        clickButton.setName("click菜单");
-        clickButton.setType(MessageConstant.MESSAGE_CLICK);
-        clickButton.setKey("11");
-        return clickButton;
+    /**
+     * 组装菜单
+     */
+    public static Menu initMenu(){
+
+        Menu menu = new Menu();
+        menu.setButton(new Button[]{MenuTemplate.buttonMenuLeft(),MenuTemplate.buttonMenuMiddle(),MenuTemplate.buttonMenuRight()});
+        return menu;
     }
 
     /**
-     * ViewButton类型菜单，放在中间
-     * @return
+     * 调用微信菜单接口创建菜单
      */
-    public static ViewButton buttonMenuMiddle(){
+    public static int createMenu(String token, String menu){
 
-        ViewButton viewButton = new ViewButton();
-        viewButton.setName("vie菜单");
-        viewButton.setType(MessageConstant.MESSAGE_VIEW);
-        viewButton.setUrl("http://www.baidu.com");
-        return viewButton;
+        int result = 0;
+        String url = UrlConstant.CREATE_MENU_URL.replace("ACCESS_TOKEN", token);
+        JSONObject jsonObject = WeixinUtil.doPostStr(url, menu);
+        if(jsonObject != null){
+            result = jsonObject.getInt("errcode");
+        }
+        return result;
     }
 
     /**
-     * button类型菜单,放在右边
-     * @return
+     * 查询菜单
      */
-    public static Button buttonMenuRight(){
+    public static JSONObject queryMenu(String token) {
 
-        Button button = new Button();
-        button.setName("菜单");
-        button.setSub_button(new Button[]{buttonMenuRight1(),buttonMenuRight2()});
-        return button;
+        String url = UrlConstant.QUERY_MENU_URL.replace("ACCESS_TOKEN", token);
+        JSONObject jsonObject = WeixinUtil.doGetStr(url);
+        return jsonObject;
     }
 
     /**
-     * ClickButton菜单，作为右边的子菜单
-     * @return
+     * 删除菜单
      */
-    public static ClickButton buttonMenuRight1(){
+    public static int deleteMenu(String token) {
 
-        ClickButton clickButton = new ClickButton();
-        clickButton.setName("扫码");
-        clickButton.setType(MessageConstant.MESSAGE_SCANCODE);
-        clickButton.setKey("31");
-        return clickButton;
-    }
-
-    /**
-     * ClickButton菜单，作为右边的子菜单
-     * @return
-     */
-    public static ClickButton buttonMenuRight2(){
-
-        ClickButton clickButton = new ClickButton();
-        clickButton.setName("地理位置");
-        clickButton.setType(MessageConstant.MESSAGE_LOCSELECT);
-        clickButton.setKey("32");
-        return clickButton;
+        String url = UrlConstant.DELETE_MENU_URL.replace("ACCESS_TOKEN", token);
+        JSONObject jsonObject = WeixinUtil.doGetStr(url);
+        int result = 0;
+        if(jsonObject!=null){
+            result = jsonObject.getInt("errcode");
+        }
+        return result;
     }
 }

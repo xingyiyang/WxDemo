@@ -49,9 +49,8 @@ public class WeixinServlet extends HttpServlet {
             //根据msgType来判断消息的类型
             String message = null;
             //消息类型为“text”
-            //1.xyy 2.fty 3.图文  4.图片  5.语音 6.音乐 7.视频 ？.主菜单
             if(MessageConstant.MESSAGE_TEXT.equals(msgType)){
-
+                //1.xyy 2.fty 3.图文  4.图片  5.语音 6.音乐 7.视频 ？.主菜单
                 if("1".equals(content)){
                     message = MessageTemplate.initText(toUserName, fromUserName, MessageUtil.firstMenu());
                 }else if("2".equals(content)){
@@ -91,11 +90,11 @@ public class WeixinServlet extends HttpServlet {
                     message = MessageTemplate.initText(toUserName, fromUserName, MessageTemplate.menuText());
                 }
                 //click事件
-                else if(MessageConstant.MESSAGE_CLICK.equals(eventType)){
+                else if("CLICK".equals(eventType)){
                     message = MessageTemplate.initText(toUserName, fromUserName, MessageTemplate.menuText());
                 }
                 //view事件
-                else if(MessageConstant.MESSAGE_VIEW.equals(eventType)) {
+                else if("VIEW".equals(eventType)) {
                     //获取view设置的url链接
                     String url = map.get("EventKey");
                     message = MessageTemplate.initText(toUserName, fromUserName, url);

@@ -2,6 +2,7 @@ package com.weixin.test;
 
 import com.weixin.constant.TransConstant;
 import com.weixin.entity.AccessToken;
+import com.weixin.util.MenuUtil;
 import com.weixin.util.TransUtil;
 import com.weixin.util.UploadUtil;
 import com.weixin.util.WeixinUtil;
@@ -18,7 +19,19 @@ public class WeixinTest {
         AccessToken accessToken = WeixinUtil.getAccessToken();
         System.out.println(accessToken.getToken());
 
-        uploadVideo(accessToken);
+        //uploadVideo(accessToken);
+
+        try {
+            String menu = JSONObject.fromObject(MenuUtil.initMenu()).toString();
+            int resultcode = MenuUtil.createMenu(accessToken.getToken(), menu);
+            if(resultcode == 0){
+                System.out.println("创建菜单成功");
+            }else{
+                System.out.println("errorcode: "+resultcode);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     //上传图片
